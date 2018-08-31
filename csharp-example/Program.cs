@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace csharp_example
@@ -21,7 +22,7 @@ namespace csharp_example
             while (true)
             {
                 Console.WriteLine("Welcome to the SMS sending service");
-                Console.WriteLine("Please provide a phone number");
+                Console.WriteLine("Please provide a phone number with country code eg. +46101606060");
                 var recipient = Console.ReadLine();
 
                 Console.WriteLine("Please write the message you want to send");
@@ -42,8 +43,17 @@ namespace csharp_example
                     var task = SendSms(sender, recipient, message);
                     task.Wait();
                 }
-
+                Console.WriteLine("Do you want to send another message? Write yes or no");
+                answer = Console.ReadLine();
                 Console.WriteLine();
+                if (answer != "yes")
+                {
+                    Console.WriteLine("Thank you for sending SMS with iP.1");
+                    Thread.Sleep(1000);
+                    break;
+                }
+
+                
             }
         }
         public static async Task SendSms(string sender, string recipient, string messageBody)
